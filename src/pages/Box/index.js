@@ -20,14 +20,13 @@ import { Container, BoxTitle, Archives, DropSpace } from './styles';
 export default function Box({ match }) {
     const [box, setBox] = useState({});
 
-    async function subscribeToNewFiles() {
+    function subscribeToNewFiles() {
         const { id } = match.params;
         const io = socket('http://localhost:3333');
 
         io.emit('connectRoom', id);
         io.on('file', data => {
-            const [file] = data;
-            setBox({ ...box, files: [file, ...box.files] });
+            setBox({ ...box, files: [data, ...box.files] });
         });
     }
 
