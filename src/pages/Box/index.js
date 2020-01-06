@@ -18,7 +18,8 @@ import api from '../../services/api';
 import { Container, BoxTitle, Archives, DropSpace } from './styles';
 
 export default function Box({ match }) {
-    const [box, setBox] = useState({});
+    const [box, setBox] = useState({ files: [] });
+    const [fileAdded, setFileAdded] = useState([]);
 
     function subscribeToNewFiles() {
         const { id } = match.params;
@@ -27,6 +28,7 @@ export default function Box({ match }) {
         io.emit('connectRoom', id);
         io.on('file', data => {
             setBox({ ...box, files: [data, ...box.files] });
+            setFileAdded([...fileAdded, '+1']);
         });
     }
 
@@ -39,6 +41,16 @@ export default function Box({ match }) {
         }
         loadFiles();
     }, [match.params]);
+
+    useEffect(() => {
+        async function loadFiles() {
+            subscribeToNewFiles();
+            const { id } = match.params;
+            const response = await api.get(`boxes/${id}`);
+            setBox(response.data);
+        }
+        loadFiles();
+    }, [fileAdded]);
 
     async function handleUpload(files) {
         files.map(file => {
