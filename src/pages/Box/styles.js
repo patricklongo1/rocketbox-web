@@ -20,8 +20,10 @@ export const BoxTitle = styled.header`
     }
 
     button {
+        background: none;
+        transition: background 0.2s;
         &:hover {
-            opacity: 0.9;
+            opacity: 0.6;
         }
 
         svg {

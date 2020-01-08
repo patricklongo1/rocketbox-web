@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 
 import logo from '../../assets/logo.svg';
 import api from '../../services/api';
+import history from '../../services/history';
 
 import { Container, BoxTitle, Archives, DropSpace } from './styles';
 
@@ -64,10 +65,17 @@ export default function Box({ match }) {
         });
     }
 
+    function handleLogout() {
+        history.push('/');
+    }
+
     return (
         <Container>
             <BoxTitle>
-                <img src={logo} alt="Rocket Box" />
+                <button type="button" onClick={handleLogout}>
+                    <img src={logo} alt="Rocket Box" />
+                </button>
+
                 <h1>{box.title}</h1>
             </BoxTitle>
 

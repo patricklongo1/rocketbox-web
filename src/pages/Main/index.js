@@ -18,10 +18,15 @@ export default function Main() {
                 title: box,
             });
 
-            toast.success('BOX criado com sucesso!');
+            if (response.data.files.length > 0) {
+                toast.info('Bem vindo de volta');
+            } else {
+                toast.success('BOX criado com sucesso!');
+            }
+
             history.push(`box/${response.data._id}`);
         } catch (error) {
-            toast.error('Falha');
+            toast.error('Falha ao registrar nova BOX!');
         }
     }
 
